@@ -10,6 +10,5 @@ Solution (Time = O(n log n))
   compare(x , y):
     str_xy = concatenate(str(x), str(y))
     str_yx = concatenate(str(y), str(x))
-    if(integer(str_xy) > integer(str_yx))
-		return true;
+    return (integer(str_xy) - integer(str_yx))
 ```
