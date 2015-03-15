@@ -2,6 +2,7 @@
 Use Python Dictionary to Solve DNA Sequence matching. Use dictionary to 
 track which 10-digit sequences occur more than once. Lastly, Prune duplicates
 with Python Set Data-Structure.
+Time Complexity = O(n)
 """
 
 import unittest
