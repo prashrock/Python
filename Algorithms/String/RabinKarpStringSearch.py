@@ -15,9 +15,23 @@ from RollingHash import RollingHash
 
 #@param text    - input stream of length n
 #@param pattern - search string of length m
+#return a list containing all the offsets where pattern occurs in text
+#Time Complexity - O(nm)
+def Brute_Force_string_match(text, pattern, verbose=False):
+    i = 0
+    offsets = list()         #Hold starting offset of each matches
+    for i in range(len(text) - len(pattern) + 1):
+        if(pattern == text[i: i+len(pattern)]):
+            offsets.append(i)
+            if(verbose): print i
+    return offsets
+
+#@param text    - input stream of length n
+#@param pattern - search string of length m
 #@param verify  - manually verify each match to avoid false-positives
 #@param verbose - control verbosity of this functionm
 #return a list containing all the offsets where pattern occurs in text
+#Time Complexity - O(n + m)
 def Rabin_Karp_string_match(text, pattern, verify=1, verbose=0):
     num_false_positives = 0  #counts when hash matches but string does not
     n = len(text)
@@ -35,9 +49,9 @@ def Rabin_Karp_string_match(text, pattern, verify=1, verbose=0):
     for i in range(m, n+1):  #n-m+1 hash comparisons required
         if(h_txt == h_pat):
             if(verify == 0): #Do not worry about false positives
-                offsets.append(i)
+                offsets.append(i - m)
             elif((text[i-m:i]) == pattern): 
-                offsets.append(i)
+                offsets.append(i - m)
             else: 
                 num_false_positives += 1
         if(i == n): break
@@ -56,7 +70,8 @@ class TestRabinKarp(unittest.TestCase):
         text = "abcdef"
         pattern = "g"
         offs = Rabin_Karp_string_match(text, pattern)
-        self.assertEqual(len(offs), 0)
+        offs_brute = Brute_Force_string_match(text, pattern)
+        self.assertEqual(offs, offs_brute)
         print 'Passed'
 
     def test_all_match(self):
@@ -64,7 +79,8 @@ class TestRabinKarp(unittest.TestCase):
         print 'Test for all word match: ',
         pattern = "what"
         offs = Rabin_Karp_string_match(text, pattern)
-        self.assertEqual(len(offs), 6)
+        offs_brute = Brute_Force_string_match(text, pattern)
+        self.assertEqual(offs, offs_brute)
         print 'Passed'
 
     def test_two_match(self):
@@ -72,7 +88,8 @@ class TestRabinKarp(unittest.TestCase):
         print 'Test for only 2 specific words: ',
         pattern = "king"
         offs = Rabin_Karp_string_match(text, pattern)
-        self.assertEqual(len(offs), 2)
+        offs_brute = Brute_Force_string_match(text, pattern)
+        self.assertEqual(offs, offs_brute)
         print 'Passed'
 if __name__ == '__main__':
     unittest.main()
