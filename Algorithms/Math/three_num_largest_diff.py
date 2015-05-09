@@ -1,6 +1,7 @@
 """
 Input 3 numbers from user, sort them and decide whether the smallest
-or largest is further away from the remaining number 
+or largest is further away from the middle number. If both distances
+are equal then select the largest number
 """
 
 #from sys import stdin
